@@ -4,6 +4,7 @@ from flask_mail import Mail, Message
 from datetime import datetime
 from models import User, Admin, TeacherApproval, ContentAccess, LoginLog
 from config import Config
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -25,6 +26,12 @@ class User(db.Model):
     country = db.Column(db.String(100))
     university_website = db.Column(db.String(255))
     additional_info = db.Column(db.Text)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Admin(db.Model):
     __tablename__ = 'admin'
@@ -58,13 +65,16 @@ class LoginLog(db.Model):
 @app.route('/')
 def index():
     return render_template('index.html')
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user_type = request.form['user_type']
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user_type = request.form.get('user_type')
+        
+        if not email or not password:
+            flash('Email and password are required.')
+            return redirect(url_for('signup'))
         
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
@@ -77,22 +87,26 @@ def signup():
         
         new_user = User(
             email=email,
+            password=password,  # Set password directly
             user_type=user_type,
             is_approved=True if user_type == 'student' else False,
             signup_date=datetime.utcnow()
         )
-        new_user.set_password(password)
         
-        db.session.add(new_user)
-        db.session.commit()
-        
-        if user_type == 'student':
-            flash('Student registered successfully!')
-            return redirect(url_for('login'))
-        else:
-            # This part should not be reached due to earlier redirect, but kept for completeness
-            flash('Teacher registration request submitted. Please wait for admin approval.')
-            return redirect(url_for('teacher_info'))
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            
+            if user_type == 'student':
+                flash('Student registered successfully!')
+                return redirect(url_for('login'))
+            else:
+                flash('Teacher registration request submitted. Please wait for admin approval.')
+                return redirect(url_for('teacher_info'))
+        except IntegrityError:
+            db.session.rollback()
+            flash('An error occurred. Please try again.')
+            return redirect(url_for('signup'))
     
     return render_template('signup.html')
 

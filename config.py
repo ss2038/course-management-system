@@ -9,4 +9,4 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'your-email@gmail.com'
     MAIL_PASSWORD = 'your-email-password'
-    ADMIN_EMAIL = 'admin@example.com'
+    ADMIN_EMAIL = 'ashishk@illinois.edu'
