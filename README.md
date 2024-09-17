@@ -1,24 +1,22 @@
 # Course Management System
 
-![image](https://github.com/user-attachments/assets/72da1744-ef4c-4fe6-8640-1c694d88ace6)
+![image](https://github.com/user-attachments/assets/daf01062-f0a6-4e09-95a2-c4d970c2668d)
+
+![image](https://github.com/user-attachments/assets/721e901f-141d-4e5b-863c-eb03831f5ee9)
+
+![image](https://github.com/user-attachments/assets/2f429864-53f7-4390-8acb-373e1cdada63)
+
+![image](https://github.com/user-attachments/assets/914625e5-95ef-43e2-a581-876eb746d084)
+
+![image](https://github.com/user-attachments/assets/34bd9148-cb99-48d1-ae8e-925189cd1bd8)
+
+![image](https://github.com/user-attachments/assets/ea731926-80f4-48c5-824b-e7fee231c348)
+
+![image](https://github.com/user-attachments/assets/becd9498-caac-448f-b29d-cd781f840ba5)
+
+![image](https://github.com/user-attachments/assets/bb2dbe3a-97a1-4a2f-b9bb-8c14e2b52482)
 
 
-![image](https://github.com/user-attachments/assets/f644bef5-76ad-4840-a5be-a4c502598de8)
-
-
-![image](https://github.com/user-attachments/assets/3e2fc6d7-8c13-4d18-a1cd-edd8d60ce57b)
-
-
-![image](https://github.com/user-attachments/assets/0b5e9c46-1e25-43af-9111-8881b5d14c1f)
-
-
-![image](https://github.com/user-attachments/assets/3fbb0929-29d3-4349-908e-5481053b1d9c)
-
-
-![image](https://github.com/user-attachments/assets/20346dfd-cb1b-4400-bc3a-cddbd0d0e1aa)
-
-
-![image](https://github.com/user-attachments/assets/7a4636c5-72ae-435a-aec1-98736e5e0315)
 
 
 ## Overview
@@ -48,7 +46,7 @@ course_management/
 ├── config.py
 ├── models.py
 ├── templates/
-│ ├── index.html
+│ ├── base.html
 │ ├── login.html
 │ ├── signup.html
 │ ├── teacher_info.html
@@ -59,6 +57,45 @@ course_management/
 
 
 ## Database Schema
+
+to create the database from the file that i had uploaded on github, you can follow these steps:
+ 
+Steps to create the database:
+ 
+To create a new database in cmd, run:
+ 
+createdb course_management
+ 
+This creates a new database named "course_management".
+
+Connect to the new database:
+ 
+psql -d course_management
+ 
+Execute the SQL file:
+Once connected to the database, run:
+ 
+\i C:\Users\Admin\test Course management system\course-management-system\course_management_schema.sql
+ 
+Replace the path with the actual path to your schema file.
+ 
+Now,
+Verify the database structure:
+After executing the file, you can check if the tables were created correctly:
+ 
+\dt
+ 
+This will list all tables in the database.
+Check table structures:
+To see the structure of a specific table, use:
+ 
+\d table_name
+ 
+Replace "table_name" with each table name (e.g., users, admin, content_access, etc.) to verify their structures.
+Exit psql:
+When you're done, type:
+ 
+\q
 
 ### 1. Users Table
 **Purpose**: This is the core table for storing user information, whether they are students or teachers.
