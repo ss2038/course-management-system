@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Study and Book Material</h2>
+    <p>Here is your access to study materials:</p>
+    <div class="button-container">
+        <a href="{{ drive_link }}" target="_blank" class="button">Access Study Material</a>
+        <a href="{{ url_for('home') }}" class="button">Back to Home</a>
+        <!-- <a href="{{ url_for('logout') }}" class="button">Logout</a> -->
+    </div>
+{% endblock %}

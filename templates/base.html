@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Course Management{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Course Management System</h1>
+    <!-- Centered header -->
+    <header class="header">
+        <h1 class="header-title">Course Management System</h1>
     </header>
+    
     <main>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -22,6 +25,15 @@
         {% endwith %}
         {% block content %}{% endblock %}
     </main>
+    
+    <!-- Moved user-info section right above the footer -->
+    {% if session.get('user_id') %}
+        <div class="user-info">
+            <p>({{ user.email }})</p>
+            <a href="{{ url_for('logout') }}" class="button">Logout</a>
+        </div>
+    {% endif %}
+    
     <footer>
         <p>&copy; 2024 Course Management System</p>
     </footer>

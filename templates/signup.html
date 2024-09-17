@@ -1,20 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Sign Up</h2>
-    <form method="POST">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <label for="user_type">User Type:</label>
-        <select id="user_type" name="user_type" required>
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-        </select>
-        
-        <button type="submit">Sign Up</button>
-    </form>
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    
+    <!-- Wrap the form in a container -->
+    <div class="form-container">
+        <form method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="user_type">User Type:</label>
+            <select id="user_type" name="user_type" required>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+            
+            <button type="submit" class="button">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Sign up and reset password links turned into buttons -->
+    <p>
+        Already have an account? 
+        <a href="{{ url_for('login') }}" class="link-button">Login here</a>
+    </p>
+    
+    <!-- Back to home button styled -->
+    <div class="button-container">
+        <a href="{{ url_for('home') }}" class="button">Back to Home</a>
+    </div>
 {% endblock %}

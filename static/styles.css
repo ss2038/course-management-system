@@ -1,73 +1,204 @@
+/* General styles */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+    background-color: #e0f7fa;
     margin: 0;
     padding: 0;
+    text-align: center;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-header, footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #004d66;
 }
 
-main {
-    flex: 1;
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
+h2 {
+    font-size: 2rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #004d66;
 }
 
-h1, h2 {
-    color: #333;
+/* Form container styling */
+.form-container {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
 }
 
-input, select, button {
-    padding: 0.5rem;
+label {
     font-size: 1rem;
+    text-align: left;
 }
 
-button, .button {
-    background-color: #007bff;
-    color: #fff;
+input[type="email"], input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 300px;
+    margin: 0 auto;
+}
+
+button[type="submit"] {
+    background-color: #4da6ff;
+    color: white;
+    padding: 10px 20px;
     border: none;
+    border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
+    width: 120px;
+    margin: 0 auto;
+}
+
+button[type="submit"]:hover {
+    background-color: #3399ff;
+}
+
+/* Link button styling */
+.link-button {
+    background-color: #4da6ff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
     text-decoration: none;
+    font-size: 1rem;
     display: inline-block;
-    padding: 0.5rem 1rem;
+    width: 90px;
+}
+
+.link-button:hover {
+    background-color: #3399ff;
+}
+
+/* Center the buttons and ensure they're aligned */
+.link-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+/* Back to Home button */
+.button-container {
+    margin-top: 20px;
+}
+
+/* Header styling */
+.header {
+    background-color: #81d4fa;
+    padding: 20px;
     text-align: center;
 }
 
-button:hover, .button:hover {
-    background-color: #0056b3;
+.header-title {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #004d66;
 }
 
-.button-container {
+/* User info in header */
+.user-info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #b2ebf2;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    align-items: center;
 }
 
+.user-info p {
+    margin: 0 10px;
+}
+
+.button {
+    background-color: #4da6ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3399ff;
+}
+
+/* Footer styling */
+footer {
+    padding: 10px;
+    text-align: center;
+    color: #004d66;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Warning message styling */
 .flashes {
-    list-style-type: none;
-    padding: 0;
+    color: red;
+    background-color: #ffcccb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    display: inline-block;
+    list-style: none;
+    padding-left: 10;
 }
 
-.flashes li {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 4px;
+/* Ensure the main content is centered */
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    margin-bottom: 5px; /* Adjust this value to reduce the space */
+}
+
+/* Style for the select dropdown */
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 320px;
+    margin: 0 auto;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Style for the option text */
+select option {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Adjust margin for better alignment */
+form select {
+    margin-top: 10px;
 }

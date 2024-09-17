@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Access learning materials and study resources below:</h2>
+    
+    <div class="button-container">
+        <a href="https://www.coursera.org/" target="_blank" class="button">Coursera Platform</a>
+        <a href="{{ url_for('study_material') }}" class="button">Study and Book Material</a>
+    </div>
+{% endblock %}

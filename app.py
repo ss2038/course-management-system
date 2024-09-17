@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from datetime import datetime
@@ -63,8 +63,49 @@ class LoginLog(db.Model):
     ip_address = db.Column(db.String(50))
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
+
+@app.route('/study_material')
+def study_material():
+    if 'user_id' in session:
+        user = User.query.filter_by(user_id=session['user_id']).first()
+        if user:
+            content = ContentAccess.query.filter_by(user_type=user.user_type).first()
+            return render_template('study_material.html', drive_link=content.drive_link)
+    else:
+        flash('Please login to access study materials.')
+        return redirect(url_for('login'))
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        user = User.query.filter_by(email=email).first()
+        
+        if user and user.password == password:
+            if not user.is_approved:
+                flash('Your account is not yet approved.')
+                return redirect(url_for('login'))
+            
+            # Set the session for the logged-in user
+            session['user_id'] = user.user_id
+
+            # Log the user's login time
+            user.last_login = datetime.utcnow()
+            log = LoginLog(user_id=user.user_id, ip_address=request.remote_addr)
+            db.session.add(log)
+            db.session.commit()
+
+            # Redirect to study material page after login
+            return redirect(url_for('study_material'))
+        else:
+            flash('Invalid email or password.')
+    
+    return render_template('login.html')
+
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -96,10 +137,14 @@ def signup():
         try:
             db.session.add(new_user)
             db.session.commit()
-            
+
+            # Automatically log in the user after registration
+            session['user_id'] = new_user.user_id
+
+            # If it's a student, they can access the material directly
             if user_type == 'student':
-                flash('Student registered successfully!')
-                return redirect(url_for('login'))
+                flash('Student registered and logged in successfully!')
+                return redirect(url_for('study_material'))
             else:
                 flash('Teacher registration request submitted. Please wait for admin approval.')
                 return redirect(url_for('teacher_info'))
@@ -107,33 +152,8 @@ def signup():
             db.session.rollback()
             flash('An error occurred. Please try again.')
             return redirect(url_for('signup'))
-    
-    return render_template('signup.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        
-        user = User.query.filter_by(email=email).first()
-        
-        if user and user.password == password:
-            if not user.is_approved:
-                flash('Your account is not yet approved.')
-                return redirect(url_for('login'))
-            
-            user.last_login = datetime.utcnow()
-            log = LoginLog(user_id=user.user_id, ip_address=request.remote_addr)
-            db.session.add(log)
-            db.session.commit()
-            
-            content = ContentAccess.query.filter_by(user_type=user.user_type).first()
-            return render_template('dashboard.html', user=user, drive_link=content.drive_link)
-        else:
-            flash('Invalid email or password.')
-    
-    return render_template('login.html')
+    return render_template('signup.html')
 
 @app.route('/teacher_info')
 def teacher_info():
@@ -156,6 +176,23 @@ def send_password_email(email, password):
     msg = Message('Your Password', sender=app.config['MAIL_USERNAME'], recipients=[email])
     msg.body = f'Your password is: {password}'
     mail.send(msg)
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)  # Remove the user_id from the session
+    flash('You have been logged out.')
+    return redirect(url_for('login'))
+
+@app.before_request
+def load_user():
+    if 'user_id' in session:
+        g.user = User.query.get(session['user_id'])
+    else:
+        g.user = None
+
+@app.context_processor
+def inject_user():
+    return dict(user=g.user)
 
 if __name__ == '__main__':
     with app.app_context():

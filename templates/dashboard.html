@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-    <h2>Welcome, {{ user.email }}!</h2>
-    <p>User Type: {{ user.user_type.capitalize() }}</p>
-    <p>Your content is available at: <a href="{{ drive_link }}" target="_blank">Google Drive Link</a></p>
-    <a href="{{ url_for('login') }}" class="button">Logout</a>
-{% endblock %}
