@@ -106,31 +106,38 @@ def login():
     
     return render_template('login.html')
 
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
         user_type = request.form.get('user_type')
-        
+        college_name = request.form.get('college_name')
+        country = request.form.get('country')
+        university_website = request.form.get('university_website')
+        additional_info = request.form.get('additional_info')
+
         if not email or not password:
             flash('Email and password are required.')
             return redirect(url_for('signup'))
-        
+
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('Email already registered.')
             return redirect(url_for('signup'))
-        
+
         if user_type == 'teacher':
             flash('Teachers must email the admin for registration.')
             return redirect(url_for('teacher_info'))
-        
+
         new_user = User(
             email=email,
-            password=password,  # Set password directly
+            password=password,  # Set password directly (You may need to hash it)
             user_type=user_type,
+            college_name=college_name,
+            country=country,
+            university_website=university_website,
+            additional_info=additional_info,
             is_approved=True if user_type == 'student' else False,
             signup_date=datetime.utcnow()
         )

@@ -44,13 +44,21 @@ label {
     text-align: left;
 }
 
-input[type="email"], input[type="password"] {
+input[type="email"], 
+input[type="password"], 
+input[type="text"], 
+input[type="url"], 
+textarea {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
     width: 300px;
     margin: 0 auto;
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing */
 }
 
 button[type="submit"] {
@@ -201,4 +209,10 @@ select option {
 /* Adjust margin for better alignment */
 form select {
     margin-top: 10px;
+}
+
+.required {
+    color: red;
+    margin-left: 5px;
+    font-weight: bold;
 }
